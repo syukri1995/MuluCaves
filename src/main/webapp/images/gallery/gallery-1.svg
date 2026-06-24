@@ -1,0 +1,18 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b4332"/>
+      <stop offset="100%" stop-color="#2d6a4f"/>
+    </linearGradient>
+    <pattern id="p1" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 20 L20 0 L40 20 L20 40 Z" fill="rgba(255,255,255,0.04)"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#g1)"/>
+  <rect width="800" height="500" fill="url(#p1)"/>
+  <g font-family="'Inter', system-ui, sans-serif" text-anchor="middle" fill="#ffffff">
+    <text x="400" y="240" font-size="34" font-weight="700">Gallery 1 / 8</text>
+    <text x="400" y="280" font-size="18" opacity="0.85">Sunrise over the karst</text>
+    <text x="400" y="460" font-size="12" opacity="0.5">placeholder Â· replace with real photo</text>
+  </g>
+</svg>

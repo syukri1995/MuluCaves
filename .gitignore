@@ -1,0 +1,39 @@
+# Eclipse / IntelliJ
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+target/
+*.class
+*.jar
+*.war
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config — never commit real DB credentials
+src/main/webapp/WEB-INF/db.properties
+src/main/webapp/WEB-INF/*.log
+
+# AWS
+*.pem
+.aws/
+
+# Local Maven dependency
+.maven/
+
+# ============================================================
+# mulu-marketing/ is an INDEPENDENT React/Vite project that
+# lives next to the JSP coursework for convenience but is
+# NEVER bundled by Maven and NEVER deployed by the AWS / Docker
+# scripts in scripts/. It has its own node_modules, package.json,
+# and Vite build (mulu-marketing/dist/). Keep it ignored here so
+# nothing accidentally crosses the boundary.
+# ============================================================
+mulu-marketing/node_modules/
+mulu-marketing/dist/
+mulu-marketing/.vite/

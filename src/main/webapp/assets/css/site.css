@@ -1,0 +1,429 @@
+/* ==========================================================
+   Mulu Caves — site.css
+   Redesigned for premium, editorial travel-magazine aesthetic.
+   ========================================================== */
+
+:root {
+    /* Subterranean transition palette */
+    --fern-mist:        #d6dbd2;
+    --cave-shadow:      #0b0e0c;
+    --bio-glow:         #c6f13a;
+    --limestone:        #384039;
+    --rust-mineral:     #d27e4e;
+    --rust-mineral-dim: #96532d;
+    --moss-forest:      #22352a;
+    --bone-clay:        #c7cfc3;
+
+    /* Semantic mappings */
+    --mulu-dark:        var(--cave-shadow);
+    --mulu-green:       var(--limestone);
+    --mulu-green-2:     var(--rust-mineral);
+    --mulu-leaf:        var(--bio-glow);
+    --mulu-cream:       var(--fern-mist);
+}
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: var(--cave-shadow);
+    background-color: var(--fern-mist);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    position: relative;
+}
+
+/* Subtle SVG grain overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+h1, h2, h3, h4, .navbar-brand {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+}
+
+a { 
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Navbar --------------------------------------------------- */
+.mulu-navbar {
+    background: var(--cave-shadow) !important;
+    box-shadow: 0 2px 12px rgba(11, 14, 12, 0.08);
+    border-bottom: 1px solid rgba(214, 219, 210, 0.1);
+}
+
+.mulu-navbar .navbar-brand {
+    color: var(--fern-mist) !important;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.mulu-navbar .navbar-brand i {
+    color: var(--rust-mineral);
+}
+
+.mulu-navbar .nav-link {
+    color: rgba(214, 219, 210, 0.75) !important;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem !important;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.mulu-navbar .nav-link:hover,
+.mulu-navbar .nav-link.active {
+    color: var(--bio-glow) !important;
+    border-bottom: 2px solid var(--bio-glow);
+}
+
+/* Hero ----------------------------------------------------- */
+.hero-section {
+    height: 85vh;
+    overflow: hidden;
+    position: relative;
+    background: var(--cave-shadow);
+}
+
+.hero-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(0.45) contrast(1.1);
+}
+
+.hero-overlay {
+    background: linear-gradient(to bottom, rgba(11, 14, 12, 0.3), rgba(11, 14, 12, 0.75));
+}
+
+.hero-text {
+    z-index: 2;
+}
+
+.hero-text h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--fern-mist);
+}
+
+.hero-text h1 em {
+    color: var(--rust-mineral);
+    font-style: italic;
+}
+
+.hero-text p {
+    color: rgba(214, 219, 210, 0.85);
+    max-w: 600px;
+    font-size: 1.15rem;
+}
+
+/* Page header (non-home pages) ----------------------------- */
+.page-header {
+    background: linear-gradient(135deg, var(--limestone) 0%, var(--cave-shadow) 100%);
+    border-bottom: 1px solid rgba(214, 219, 210, 0.1);
+    padding: 4rem 0 !important;
+}
+
+.page-header h1 {
+    color: var(--fern-mist);
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+}
+
+/* Thumbnails & Photo Layout -------------------------------- */
+.gallery-thumb,
+.activity-thumb,
+.accommodation-thumb {
+    object-fit: cover;
+    border-bottom: 2px solid var(--rust-mineral);
+}
+
+.gallery-thumb {
+    height: 220px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+.gallery-thumb:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(11, 14, 12, 0.15) !important;
+}
+
+.activity-thumb {
+    height: 100%;
+    min-height: 220px;
+}
+
+.accommodation-thumb {
+    height: 240px;
+}
+
+/* Cards (Minimal strata lines, no generic shadow) ------------ */
+.card {
+    background-color: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(11, 14, 12, 0.1);
+    border-radius: 0px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: var(--rust-mineral);
+    box-shadow: none !important;
+}
+
+.card-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.6rem;
+    color: var(--cave-shadow);
+}
+
+.card-body p {
+    color: rgba(11, 14, 12, 0.8);
+}
+
+.activity-card { 
+    overflow: hidden; 
+}
+
+/* Footer -------------------------------------------------- */
+.mulu-footer {
+    background: var(--cave-shadow) !important;
+    border-top: 1px solid rgba(214, 219, 210, 0.1);
+    color: rgba(214, 219, 210, 0.7);
+}
+
+.footer-link {
+    color: rgba(214, 219, 210, 0.7);
+    display: inline-block;
+    padding: 0.2rem 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+}
+
+.footer-link:hover {
+    color: var(--bio-glow);
+    transform: translateX(3px);
+}
+
+a[target="_blank"]::after {
+    content: " \2197";
+    font-size: 0.75em;
+    color: var(--rust-mineral);
+}
+
+.mulu-footer a[target="_blank"]::after {
+    content: "";
+}
+
+/* Forms & Buttons (Strata blocks, no rounds) -------------- */
+.form-label {
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(11, 14, 12, 0.7);
+    margin-bottom: 0.4rem;
+}
+
+.form-control, .form-select {
+    border-radius: 0;
+    border: 1px solid rgba(11, 14, 12, 0.2);
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--rust-mineral);
+    box-shadow: 0 0 0 4px rgba(210, 126, 78, 0.12);
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.btn-success {
+    background-color: var(--rust-mineral);
+    border-color: var(--rust-mineral);
+    border-radius: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.8rem 1.8rem;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-color: var(--cave-shadow) !important;
+    border-color: var(--bio-glow) !important;
+    color: var(--bio-glow) !important;
+    box-shadow: 0 0 15px rgba(198, 241, 58, 0.3);
+}
+
+.btn-outline-success {
+    color: var(--rust-mineral);
+    border-color: var(--rust-mineral);
+    border-radius: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: var(--rust-mineral);
+    border-color: var(--rust-mineral);
+    color: var(--fern-mist);
+}
+
+/* Admin Portal --------------------------------------------- */
+.admin-body {
+    background-color: #e3e8e0;
+}
+
+.admin-login-body {
+    background: linear-gradient(135deg, var(--limestone) 0%, var(--cave-shadow) 100%);
+    min-height: 100vh;
+}
+
+.login-card {
+    border-radius: 0px;
+    border: 1px solid rgba(214, 219, 210, 0.15);
+    background-color: rgba(11, 14, 12, 0.85);
+    backdrop-filter: blur(12px);
+    color: var(--fern-mist);
+}
+
+.login-card .form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--fern-mist);
+    border: 1px solid rgba(214, 219, 210, 0.2);
+}
+
+.login-card .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--bio-glow);
+    color: #ffffff;
+}
+
+.stat-card {
+    border-radius: 0;
+}
+
+.stat-card .stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.25;
+}
+
+/* Developer page ----------------------------------------- */
+.developer-photo {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 1px solid var(--rust-mineral);
+    border-radius: 0;
+}
+
+/* Editorial Hero Header & Typography utility */
+.eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.text-xs {
+    font-size: 11px;
+}
+
+.page-header-editorial {
+    background-color: transparent;
+}
+
+/* Specimen Plates (Fixed Dimensions) */
+.specimen-plate {
+    background-color: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(11, 14, 12, 0.15);
+    padding: 12px;
+    width: 320px; /* Fixed width */
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+}
+
+.specimen-plate:hover {
+    transform: translateY(-2px);
+}
+
+.plate-image-container {
+    width: 294px; /* 320 - 24 padding - 2 border */
+    height: 400px; /* Default Fixed height */
+    overflow: hidden;
+    position: relative;
+}
+
+.plate-image-container.square {
+    height: 294px;
+}
+
+.plate-image-container img {
+    width: 294px !important;
+    height: 400px !important;
+    object-fit: cover;
+    display: block;
+}
+
+.plate-image-container.square img {
+    height: 294px !important;
+}
+
+.plate-caption {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--mulu-slate);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.hero-text-editorial h1 {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+}
+
+.hero-text-editorial h1 em {
+    font-style: italic;
+    color: var(--rust-mineral);
+}
+
+/* Responsive --------------------------------------------- */
+@media (max-width: 768px) {
+    .hero-section { height: 75vh; }
+    .gallery-thumb { height: 160px; }
+    .hero-text-editorial h1 { font-size: 2.2rem; }
+}

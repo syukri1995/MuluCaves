@@ -1,0 +1,9 @@
+- [x] Review the CSC584 project plan
+- [x] Create the Maven web project structure
+- [x] Add JSP pages for public website
+- [x] Implement inquiry form and database persistence
+- [x] Implement admin login and dashboard
+- [x] Add styling and assets
+- [x] Verify the app runs locally
+- [x] Add Docker + AWS CLI deployment scripts
+- [x] Write README and architecture docs

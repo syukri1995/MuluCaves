@@ -1,0 +1,10 @@
+target/
+.git/
+.github/
+.vscode/
+Dockerfile*
+*.log
+*.tmp
+README.md
+docs/
+scripts/

@@ -1,0 +1,50 @@
+# docker-compose for local development.
+#
+# - db:    MySQL 8 with tourism_db auto-seeded via db/schema.sql
+# - app:   Tomcat 10 served via the tomcat10 official image, with the WAR
+#          mounted from target/mulu-caves.war once you `mvn package`.
+#
+# Usage:
+#   mvn -DskipTests package
+#   docker compose up -d --build
+#   open http://localhost:8080/mulu-caves
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: mulu-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_DATABASE:      tourism_db
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3307:3306"
+    volumes:
+      - mulu-db-data:/var/lib/mysql
+      # Auto-seed on first boot (idempotent — uses IF NOT EXISTS).
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test:     ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpw"]
+      interval: 5s
+      timeout:  3s
+      retries:  20
+
+  app:
+    image: tomcat:10.1-jdk25
+    container_name: mulu-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      # WAR produced by `mvn package` (deployed as ROOT context)
+      - ./target/mulu-caves.war:/usr/local/tomcat/webapps/ROOT.war:ro
+    environment:
+      DB_URL:      jdbc:mysql://host.docker.internal:3306/tourism_db?useSSL=false&serverTimezone=Asia/Kuala_Lumpur&allowPublicKeyRetrieval=true
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  mulu-db-data:

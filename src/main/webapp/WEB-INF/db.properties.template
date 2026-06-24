@@ -1,0 +1,17 @@
+# ===========================================================
+# DBConnection reads this file at startup.
+# Copy this file to db.properties and edit the values.
+# db.properties is git-ignored — never commit real credentials.
+# ===========================================================
+
+# JDBC URL. The application name helps MySQL identify the connection.
+jdbc.url=jdbc:mysql://localhost:3306/tourism_db?useSSL=false&serverTimezone=Asia/Kuala_Lumpur&allowPublicKeyRetrieval=true
+
+# DB credentials
+db.username=root
+db.password=changeme
+
+# HikariCP pool tuning
+db.pool.maximum=10
+db.pool.minimum=2
+db.pool.timeout=30000

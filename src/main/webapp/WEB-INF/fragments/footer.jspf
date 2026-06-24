@@ -1,0 +1,63 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- Shared bottom of every public page. Include via:
+       <%@ include file="/WEB-INF/fragments/footer.jspf" %>
+--%>
+
+<footer class="mulu-footer text-white pt-5 pb-4 mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <h5 class="fw-bold"><i class="fa-solid fa-mountain-sun me-2"></i>Mulu Caves</h5>
+                <p class="text-white-50">
+                    Promoting sustainable tourism to Gunung Mulu National Park — a UNESCO
+                    World Heritage Site in the heart of Sarawak, Malaysia.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a class="footer-link" href="${pageContext.request.contextPath}/home">Home</a></li>
+                    <li><a class="footer-link" href="${pageContext.request.contextPath}/explore">Explore</a></li>
+                    <li><a class="footer-link" href="${pageContext.request.contextPath}/activities">Activities</a></li>
+                    <li><a class="footer-link" href="${pageContext.request.contextPath}/accommodation">Stay</a></li>
+                    <li><a class="footer-link" href="${pageContext.request.contextPath}/inquiry">Inquire</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="fw-bold">External Resources</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a class="footer-link" target="_blank"
+                           href="https://maps.google.com/?q=Mulu+Caves+Sarawak+Malaysia">
+                            <i class="fa-solid fa-map-marker-alt me-1"></i>View on Google Maps
+                        </a>
+                    </li>
+                    <li>
+                        <a class="footer-link" target="_blank" href="https://www.sarawakforestry.com">
+                            <i class="fa-solid fa-tree me-1"></i>Sarawak Forestry Corporation
+                        </a>
+                    </li>
+                    <li>
+                        <a class="footer-link" target="_blank"
+                           href="https://whc.unesco.org/en/list/1013">
+                            <i class="fa-solid fa-globe me-1"></i>UNESCO World Heritage
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="border-light">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <small class="text-white-50">© 2026 Mulu Caves Tourism. CSC584 Coursework.</small>
+            <small class="text-white-50">Made with <i class="fa-solid fa-heart text-danger"></i> in Sarawak</small>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

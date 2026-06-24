@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                             https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <display-name>Mulu Caves Tourism App</display-name>
+
+    <!-- Default landing page -->
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- 30-minute session timeout -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <!-- Custom 404 page -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/index.jsp</location>
+    </error-page>
+
+    <!-- Protect all /admin/* except /admin/login -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.mulu.filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Public site servlet (front controller for /, /home, /explore, /activities, /accommodation, /developer) -->
+    <servlet>
+        <servlet-name>PublicServlet</servlet-name>
+        <servlet-class>com.mulu.servlet.PublicServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublicServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/explore</url-pattern>
+        <url-pattern>/activities</url-pattern>
+        <url-pattern>/accommodation</url-pattern>
+        <url-pattern>/developer</url-pattern>
+    </servlet-mapping>
+
+    <!-- Inquiry form submission -->
+    <servlet>
+        <servlet-name>InquiryServlet</servlet-name>
+        <servlet-class>com.mulu.servlet.InquiryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InquiryServlet</servlet-name>
+        <url-pattern>/inquiry</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin login (GET = form, POST = verify) -->
+    <servlet>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <servlet-class>com.mulu.servlet.AdminLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLoginServlet</servlet-name>
+        <url-pattern>/admin/login</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin logout -->
+    <servlet>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <servlet-class>com.mulu.servlet.AdminLogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <url-pattern>/admin/logout</url-pattern>
+    </servlet-mapping>
+
+    <!-- Admin dashboard (protected by AuthFilter) -->
+    <servlet>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <servlet-class>com.mulu.servlet.AdminDashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminDashboardServlet</servlet-name>
+        <url-pattern>/admin/dashboard</url-pattern>
+    </servlet-mapping>
+
+    <!-- API for activities -->
+    <servlet>
+        <servlet-name>ApiActivitiesServlet</servlet-name>
+        <servlet-class>com.mulu.servlet.ApiActivitiesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ApiActivitiesServlet</servlet-name>
+        <url-pattern>/api/activities</url-pattern>
+    </servlet-mapping>
+
+</web-app>
