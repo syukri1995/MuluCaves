@@ -25,40 +25,128 @@
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     <!-- Site styles -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/site.css">
+
+    <!-- Tailwind CSS (Play CDN) & Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "var(--primary)", secondary: "var(--secondary)",
+              accent: "var(--accent)", dark: "var(--dark)",
+              light: "var(--light)", muted: "var(--muted)"
+            },
+            fontFamily: {
+              display: ['"Cormorant Garamond"', "Georgia", "serif"],
+              sans: ['"Inter"', "system-ui", "sans-serif"],
+              mono: ['"JetBrains Mono"', "ui-monospace", "monospace"]
+            }
+          }
+        }
+      }
+    </script>
+    <style type="text/tailwindcss">
+        /* Base Variables */
+        :root {
+          --primary:   #0f5a3f;
+          --secondary: #1e3a5f;
+          --accent:    #d97706;
+          --dark:      #0f172a;
+          --light:     #f9fafb;
+          --muted:     #6b7280;
+        }
+
+        body {
+          background: var(--light);
+          color: var(--dark);
+          font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        /* Container & Utilities */
+        .container-max {
+          max-width: 1280px; margin-left: auto; margin-right: auto;
+          padding-left: 1.5rem; padding-right: 1.5rem;
+        }
+        @media (min-width: 768px) {
+          .container-max { padding-left: 2.5rem; padding-right: 2.5rem; }
+        }
+        
+        .btn {
+          display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+          padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; font-size: 0.95rem;
+          transition: all 0.3s ease; cursor: pointer; border: none; text-decoration: none;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #0d4a32; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(15, 90, 63, 0.2); color: white; }
+        .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-accent:hover { background: #b85a00; transform: translateY(-2px); box-shadow: 0 8px 16px rgba(217, 119, 6, 0.2); color: white;}
+
+        .card { background: white; border-radius: 0.75rem; border: 1px solid #e5e7eb; overflow: hidden; transition: all 0.3s ease; }
+        .card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); transform: translateY(-4px); }
+        .text-display-xl { font-family: 'Poppins', system-ui, sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+        .text-display-lg { font-family: 'Poppins', system-ui, sans-serif; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; line-height: 1.2; }
+        .text-h2 { font-family: 'Poppins', system-ui, sans-serif; font-size: clamp(1.75rem, 5vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+        .eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-slide-in-left { animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        .opacity-0 { opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
 </head>
 <body>
 
 <!-- Navbar (consistent across all public pages) -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top mulu-navbar">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="${pageContext.request.contextPath}/home">
-            <i class="fa-solid fa-mountain-sun me-2"></i>Mulu Caves
+<header class="sticky-top z-50 bg-[var(--dark)] text-[var(--light)] border-b border-white/10 backdrop-blur supports-[backdrop-filter]:bg-[var(--dark)]/85">
+    <nav class="container-max flex items-center justify-between h-16">
+        <a class="font-display text-xl tracking-tight text-[var(--light)] hover:text-[var(--accent)] transition-colors text-decoration-none" 
+           style="font-family: 'Cormorant Garamond', Georgia, serif;"
+           href="${pageContext.request.contextPath}/home">
+            Mulu Caves
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link ${fn:contains(pageContext.request.servletPath, '/home')       ? 'active' : ''}" href="${pageContext.request.contextPath}/home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ${fn:contains(pageContext.request.servletPath, '/explore')     ? 'active' : ''}" href="${pageContext.request.contextPath}/explore">Explore</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ${fn:contains(pageContext.request.servletPath, '/activities')  ? 'active' : ''}" href="${pageContext.request.contextPath}/activities">Activities</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ${fn:contains(pageContext.request.servletPath, '/accommodation') ? 'active' : ''}" href="${pageContext.request.contextPath}/accommodation">Stay</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ${fn:contains(pageContext.request.servletPath, '/inquiry')     ? 'active' : ''}" href="${pageContext.request.contextPath}/inquiry">Inquire</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link ${fn:contains(pageContext.request.servletPath, '/developer')   ? 'active' : ''}" href="${pageContext.request.contextPath}/developer">Developer</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+        
+        <ul class="flex flex-row items-center gap-2 md:gap-4 list-none mb-0">
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/home') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/home">Home</a>
+            </li>
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/explore') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/explore">Explore</a>
+            </li>
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/activities') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/activities">Activities</a>
+            </li>
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/accommodation') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/accommodation">Stay</a>
+            </li>
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/inquiry') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/inquiry">Inquire</a>
+            </li>
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/developer') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/developer">Developer</a>
+            </li>
+            <li>
+                <a class="text-decoration-none font-mono text-[11px] tracking-[0.18em] uppercase px-2 py-2 transition-colors duration-300 border-b-2 ${fn:contains(pageContext.request.servletPath, '/admin') ? 'text-[var(--light)] border-[var(--accent)]' : 'text-white/70 border-transparent hover:text-[var(--light)] hover:border-white/30'}" 
+                   href="${pageContext.request.contextPath}/admin/dashboard">Admin</a>
+            </li>
+        </ul>
+    </nav>
+</header>

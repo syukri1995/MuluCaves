@@ -1,63 +1,69 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%-- Shared bottom of every public page. Include via:
-       <%@ include file="/WEB-INF/fragments/footer.jspf" %>
---%>
+<%-- Shared bottom of every public page --%>
 
-<footer class="mulu-footer text-white pt-5 pb-4 mt-5">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <h5 class="fw-bold"><i class="fa-solid fa-mountain-sun me-2"></i>Mulu Caves</h5>
-                <p class="text-white-50">
-                    Promoting sustainable tourism to Gunung Mulu National Park — a UNESCO
-                    World Heritage Site in the heart of Sarawak, Malaysia.
-                </p>
-            </div>
-            <div class="col-md-4">
-                <h5 class="fw-bold">Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a class="footer-link" href="${pageContext.request.contextPath}/home">Home</a></li>
-                    <li><a class="footer-link" href="${pageContext.request.contextPath}/explore">Explore</a></li>
-                    <li><a class="footer-link" href="${pageContext.request.contextPath}/activities">Activities</a></li>
-                    <li><a class="footer-link" href="${pageContext.request.contextPath}/accommodation">Stay</a></li>
-                    <li><a class="footer-link" href="${pageContext.request.contextPath}/inquiry">Inquire</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5 class="fw-bold">External Resources</h5>
-                <ul class="list-unstyled">
-                    <li>
-                        <a class="footer-link" target="_blank"
-                           href="https://maps.google.com/?q=Mulu+Caves+Sarawak+Malaysia">
-                            <i class="fa-solid fa-map-marker-alt me-1"></i>View on Google Maps
-                        </a>
-                    </li>
-                    <li>
-                        <a class="footer-link" target="_blank" href="https://www.sarawakforestry.com">
-                            <i class="fa-solid fa-tree me-1"></i>Sarawak Forestry Corporation
-                        </a>
-                    </li>
-                    <li>
-                        <a class="footer-link" target="_blank"
-                           href="https://whc.unesco.org/en/list/1013">
-                            <i class="fa-solid fa-globe me-1"></i>UNESCO World Heritage
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<footer class="bg-dark text-light py-16 md:py-20 mt-auto">
+  <div class="container-max">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 pb-12 border-b border-light/10">
+      
+      <!-- Brand Section -->
+      <div class="lg:col-span-2">
+        <h3 class="text-2xl font-bold text-light mb-4">Mulu Caves</h3>
+        <p class="text-light/70 leading-relaxed mb-6 max-w-md">
+          Set in Cormorant Garamond & Plus Jakarta Sans. Composed as a one-page editorial for the slow traveller to Sarawak.
+        </p>
+        <div class="flex gap-4">
+          <a href="#" class="text-accent hover:text-white transition-colors" aria-label="Social">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20v-7.21H5.77V9.25h2.52V7.59c0-2.49 1.52-3.85 3.74-3.85 1.06 0 1.98.08 2.24.11v2.6h-1.54c-1.2 0-1.43.57-1.43 1.4v1.83h2.86l-.37 3.54h-2.49V20H8.29z"/></svg>
+          </a>
+          <a href="#" class="text-accent hover:text-white transition-colors" aria-label="Social">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7"/></svg>
+          </a>
         </div>
-        <hr class="border-light">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <small class="text-white-50">© 2026 Mulu Caves Tourism. CSC584 Coursework.</small>
-            <small class="text-white-50">Made with <i class="fa-solid fa-heart text-danger"></i> in Sarawak</small>
-        </div>
+      </div>
+
+      <!-- Address & External -->
+      <div>
+        <p class="eyebrow mb-4">Contact & Resources</p>
+        <address class="not-italic text-sm text-light/70 space-y-1 mb-4">
+          <div>Mulu Field Office</div>
+          <div>Sarawak, Malaysia</div>
+          <div>4.05° N · 114.92° E</div>
+        </address>
+        <nav class="space-y-2">
+          <a href="https://maps.google.com/?q=Mulu+Caves+Sarawak+Malaysia" target="_blank" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">On Google Maps</a>
+          <a href="https://www.sarawakforestry.com" target="_blank" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">Sarawak Forestry</a>
+          <a href="https://whc.unesco.org/en/list/1013" target="_blank" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">UNESCO listing</a>
+        </nav>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <p class="eyebrow mb-4">Explore</p>
+        <nav class="space-y-2">
+          <a href="${pageContext.request.contextPath}/home" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">Home</a>
+          <a href="${pageContext.request.contextPath}/explore" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">The Park</a>
+          <a href="${pageContext.request.contextPath}/activities" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">Experiences</a>
+          <a href="${pageContext.request.contextPath}/accommodation" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">Where to stay</a>
+          <a href="${pageContext.request.contextPath}/inquiry" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">Inquire</a>
+          <a href="${pageContext.request.contextPath}/developer" class="block text-sm text-light/70 hover:text-accent transition-colors text-decoration-none">Developer</a>
+        </nav>
+      </div>
+      
     </div>
+
+    <!-- Bottom Bar -->
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <p class="eyebrow text-light/50">© 2026 Mulu Caves · mulucaves.com</p>
+      <p class="eyebrow text-light/50">Designed for the world's largest caves</p>
+    </div>
+  </div>
 </footer>
 
-<!-- Scripts -->
+<!-- Global Scripts Required for Admin & Public Features -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </body>
 </html>

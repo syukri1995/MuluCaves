@@ -1,92 +1,44 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/fragments/header.jspf" %>
 
-<!-- HERO -->
-<header class="page-header-editorial py-5 my-md-4">
-    <div class="container">
-        <div class="d-flex flex-column flex-lg-row align-items-center gap-5 justify-content-between">
-            <div class="hero-text-editorial" style="max-width: 500px;">
-                <span class="eyebrow text-muted mb-3 d-block">Sarawak, Borneo · UNESCO World Heritage</span>
-                <h1 class="display-2 fw-bold text-dark lh-sm">
-                    Where the rainforest meets the world's <em class="italic font-serif font-light" style="color: var(--rust-mineral);">largest</em> caves.
-                </h1>
-                <p class="lead text-muted mt-4">
-                    A slow travel field journal — experiencing the ancient limestone passages, the raw wilderness, and the scale of nature.
-                </p>
-                <div class="mt-5 d-flex gap-3">
-                    <a href="${pageContext.request.contextPath}/explore" class="btn btn-success">
-                        Explore the Park
-                    </a>
-                    <a href="${pageContext.request.contextPath}/inquiry" class="btn btn-outline-success">
-                        Plan Inquiry
-                    </a>
-                </div>
-            </div>
-            
-            <div class="specimen-plate shadow-sm">
-                <div class="plate-image-container">
-                    <img src="${pageContext.request.contextPath}/images/hero/hero-1.jpg"
-                         alt="Mulu pinnacles rising above the forest">
-                </div>
-                <div class="plate-caption">
-                    <span>PLATE 01 // THE PINNACLES</span>
-                    <span>4.05° N · 114.92° E</span>
-                </div>
-            </div>
+<header class="relative w-full overflow-hidden bg-dark">
+  <div class="relative w-full h-screen md:h-[600px] overflow-hidden">
+    <img src="${pageContext.request.contextPath}/images/hero/home-hero.jpg"
+         alt="Deer Cave entrance, Gunung Mulu National Park"
+         class="w-full h-full object-cover" />
+
+    <!-- Layered readability scrim -->
+    <div class="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+    <div class="pointer-events-none absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.35),transparent_70%)]"></div>
+    <div class="pointer-events-none absolute inset-x-0 top-0 h-1/3 z-[2] bg-gradient-to-b from-black/60 to-transparent"></div>
+  </div>
+
+  <div class="absolute inset-0 z-10 flex flex-col justify-end">
+    <div class="container-max pb-12 md:pb-20">
+      <div class="animate-fade-in-up opacity-0 max-w-3xl [text-shadow:0_2px_8px_rgba(0,0,0,0.55)]">
+        <p class="eyebrow mb-4 !text-white/90">Gunung Mulu National Park · Sarawak</p>
+        <h1 class="text-display-xl text-white mb-6 leading-tight">Issue No. 1 · Sarawak, Borneo</h1>
+        <p class="text-white/95 text-lg max-w-2xl mb-8 leading-relaxed">
+          A field journal of place — four signature experiences in a UNESCO World Heritage Site, recorded for the slow traveller.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="${pageContext.request.contextPath}/explore" class="btn btn-accent text-decoration-none">
+            Begin the journey
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="${pageContext.request.contextPath}/activities" class="btn btn-outline border-white !text-white hover:bg-white hover:!text-dark text-decoration-none">
+            Learn More
+          </a>
         </div>
+      </div>
     </div>
+  </div>
+  
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+    <svg class="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6))">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
 </header>
-
-<!-- INTRO -->
-<section class="container my-5 py-4">
-    <div class="d-flex flex-column-reverse flex-lg-row align-items-center gap-5 justify-content-between">
-        <div class="specimen-plate shadow-sm">
-            <div class="plate-image-container square">
-                <img src="${pageContext.request.contextPath}/images/gallery/gallery-1.jpg"
-                     alt="Inside Deer Cave">
-            </div>
-            <div class="plate-caption">
-                <span>PLATE 02 // DEER CAVE</span>
-                <span>CHAMBER</span>
-            </div>
-        </div>
-        
-        <div style="max-width: 500px;">
-            <h2 class="fw-bold mb-4">Tucked deep in the heart of Borneo...</h2>
-            <p class="text-muted" style="font-size: 1.1rem; line-height: 1.8;">
-                Mulu's limestone karst ecosystem harbours some of the most spectacular cave systems on Earth — including the world's largest cave chamber by surface area, Deer Cave, and the iconic Pinnacles spires that rise 45 metres into the sky.
-            </p>
-            <a href="${pageContext.request.contextPath}/activities" class="btn btn-outline-success mt-4">
-                See activities
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURED ACTIVITIES (3) -->
-<section class="bg-light py-5 border-top">
-    <div class="container py-4">
-        <h2 class="fw-bold text-center mb-5" style="font-family: 'Cormorant Garamond', serif;">Must-do experiences</h2>
-        <div class="d-flex flex-wrap justify-content-center gap-5">
-            <c:forEach var="a" items="${activities}" begin="0" end="2" varStatus="status">
-                <div class="specimen-plate shadow-sm">
-                    <div class="plate-image-container square">
-                        <img src="${pageContext.request.contextPath}/${a.imagePath}"
-                             alt="${a.name}">
-                    </div>
-                    <div class="plate-caption">
-                        <span>PLATE 0${status.count + 2}</span>
-                        <span>${a.name}</span>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-        <div class="text-center mt-5">
-            <a href="${pageContext.request.contextPath}/activities" class="btn btn-success">
-                All activities
-            </a>
-        </div>
-    </div>
-</section>
 
 <%@ include file="/WEB-INF/fragments/footer.jspf" %>

@@ -1,42 +1,42 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/fragments/header.jspf" %>
 
-<header class="page-header py-5 text-white">
-    <div class="container text-center">
-        <h1 class="fw-bold">Things to do</h1>
-        <p class="lead mb-0">Four signature Mulu experiences</p>
+<section id="experiences" class="py-20 md:py-32 bg-gray-50 min-h-screen">
+  <div class="container-max">
+    <!-- Section Header -->
+    <div class="mb-12 animate-fade-in-up opacity-0">
+      <p class="eyebrow mb-2">Chapter Two</p>
+      <h2 class="text-h2 text-primary mb-6">
+        Four ways to spend a <em class="italic font-serif font-light">slow</em> week.
+      </h2>
     </div>
-</header>
 
-<section class="container my-5">
-    <div class="row mb-4">
-        <div class="col-md-6 mx-auto">
-            <input type="text" id="searchInput" class="form-control form-control-lg shadow-sm" placeholder="Search activities... (e.g., cave, canopy)">
+    <!-- Search Input (Preserved Logic) -->
+    <div class="mb-12 animate-fade-in opacity-0 delay-1">
+        <div class="max-w-md">
+            <input type="text" id="searchInput" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" placeholder="Search activities... (e.g., cave, canopy)">
         </div>
     </div>
-    
-    <div class="row g-4" id="activitiesContainer">
-        <c:forEach var="a" items="${activities}" varStatus="status">
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm border-0 activity-card">
-                    <div class="row g-0 h-100">
-                        <div class="col-4">
-                            <img src="${pageContext.request.contextPath}/${a.imagePath}"
-                                 alt="${a.name}"
-                                 class="img-fluid h-100 w-100 activity-thumb">
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <span class="badge bg-success mb-2">Activity ${status.count}</span>
-                                <h5 class="card-title">${a.name}</h5>
-                                <p class="card-text text-muted">${a.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+    <!-- Cards Grid -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="activitiesContainer">
+      <c:forEach var="a" items="${activities}" varStatus="status">
+        <div class="card overflow-hidden animate-fade-in-up opacity-0" style="animation-delay: ${status.count * 0.1}s">
+          <div class="relative h-48 overflow-hidden bg-gray-200">
+            <img src="${pageContext.request.contextPath}/${a.imagePath}" alt="${a.name}" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-start justify-between mb-3">
+              <p class="text-3xl font-bold text-accent">0${status.count}</p>
+              <p class="eyebrow text-right ml-2">Experience</p>
             </div>
-        </c:forEach>
+            <h3 class="text-lg font-bold text-dark mb-3">${a.name}</h3>
+            <p class="text-sm text-muted leading-relaxed">${a.description}</p>
+          </div>
+        </div>
+      </c:forEach>
     </div>
+  </div>
 </section>
 
 <script>
@@ -50,69 +50,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value;
-        
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            fetchActivities(query);
-        }, 300); // 300ms debounce
+        debounceTimer = setTimeout(() => { fetchActivities(query); }, 300);
     });
 
     async function fetchActivities(query) {
-        if (currentAbortController) {
-            currentAbortController.abort();
-        }
-        
+        if (currentAbortController) currentAbortController.abort();
         currentAbortController = new AbortController();
-        
         try {
             const url = contextPath + '/api/activities?q=' + encodeURIComponent(query);
             const response = await fetch(url, { signal: currentAbortController.signal });
-            
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            
+            if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             renderActivities(data);
-            
         } catch (error) {
-            if (error.name === 'AbortError') {
-                console.log('Fetch aborted');
-            } else {
-                console.error('Fetch error:', error);
-            }
+            if (error.name !== 'AbortError') console.error('Fetch error:', error);
         }
     }
 
     function renderActivities(activities) {
         container.innerHTML = '';
         if (activities.length === 0) {
-            container.innerHTML = '<div class="col-12 text-center text-muted"><p>No activities found.</p></div>';
+            container.innerHTML = '<div class="col-span-full text-center text-muted"><p>No activities found.</p></div>';
             return;
         }
 
         activities.forEach((a, index) => {
-            const col = document.createElement('div');
-            col.className = 'col-md-6';
-            col.innerHTML = `
-                <div class="card h-100 shadow-sm border-0 activity-card">
-                    <div class="row g-0 h-100">
-                        <div class="col-4">
-                            <img src="\${contextPath}/\${a.imagePath}"
-                                 alt="\${a.name}"
-                                 class="img-fluid h-100 w-100 activity-thumb" style="object-fit: cover;">
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <span class="badge bg-success mb-2">Activity \${index + 1}</span>
-                                <h5 class="card-title">\${a.name}</h5>
-                                <p class="card-text text-muted">\${a.description}</p>
-                            </div>
-                        </div>
-                    </div>
+            const div = document.createElement('div');
+            div.className = 'card overflow-hidden animate-fade-in-up opacity-0 delay-1';
+            div.innerHTML = `
+              <div class="relative h-48 overflow-hidden bg-gray-200">
+                <img src="\${contextPath}/\${a.imagePath}" alt="\${a.name}" class="w-full h-full object-cover" />
+              </div>
+              <div class="p-6">
+                <div class="flex items-start justify-between mb-3">
+                  <p class="text-3xl font-bold text-accent">0\${index + 1}</p>
+                  <p class="eyebrow text-right ml-2">Experience</p>
                 </div>
+                <h3 class="text-lg font-bold text-dark mb-3">\${a.name}</h3>
+                <p class="text-sm text-muted leading-relaxed">\${a.description}</p>
+              </div>
             `;
-            container.appendChild(col);
+            container.appendChild(div);
         });
     }
 });
