@@ -1,0 +1,59 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: Copy WAR to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "target/mulu-caves.war"
+          target: "/tmp/"
+
+      - name: SSH and Restart Tomcat
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo dnf install -y unzip
+            sudo rm -rf /opt/tomcat/webapps/mulu-caves
+            sudo mkdir -p /opt/tomcat/webapps/mulu-caves
+            sudo unzip -q /tmp/target/mulu-caves.war -d /opt/tomcat/webapps/mulu-caves
+            
+            # Recreate production db.properties to point to actual database instead of local workspace passwords
+            sudo mkdir -p /opt/tomcat/webapps/mulu-caves/WEB-INF/classes
+            sudo bash -c "cat > /opt/tomcat/webapps/mulu-caves/WEB-INF/classes/db.properties << 'EOFPROP'
+            jdbc.url=jdbc:mysql://localhost:3306/tourism_db?useSSL=false&serverTimezone=Asia/Kuala_Lumpur&allowPublicKeyRetrieval=true
+            db.username=root
+            db.password=${{ secrets.DB_PASSWORD }}
+            db.pool.maximum=10
+            db.pool.minimum=2
+            db.pool.timeout=30000
+            EOFPROP"
+            
+            sudo chown -R tomcat:tomcat /opt/tomcat/webapps/mulu-caves
+            sudo systemctl restart tomcat
