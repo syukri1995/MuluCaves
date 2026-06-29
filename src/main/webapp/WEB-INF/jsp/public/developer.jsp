@@ -10,7 +10,7 @@
             <div class="md:w-5/12 bg-gray-50 flex items-center justify-center p-12 border-r border-gray-100 relative">
                 <div class="absolute top-0 left-0 w-full h-1/2 bg-primary"></div>
                 <div class="relative w-56 h-56 rounded-full overflow-hidden shadow-xl border-4 border-white z-10">
-                    <img src="${pageContext.request.contextPath}/images/team/dDeveloper.jpg?v=<%= System.currentTimeMillis() %>" 
+                    <img src="${pageContext.request.contextPath}/images/team/developer.jpg?v=<%= System.currentTimeMillis() %>" 
                          alt="Developer photo" class="w-full h-full object-cover">
                 </div>
             </div>

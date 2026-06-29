@@ -23,7 +23,7 @@
           </div>
         </c:if>
 
-        <form id="inquiryForm" action="${pageContext.request.contextPath}/inquiry" method="post" novalidate class="inquiry-form-panel" style="background: rgba(255,255,255,0.45); border: 1px solid rgba(11,14,12,0.15); padding: 2rem;">
+        <form id="inquiryForm" action="${pageContext.request.contextPath}/inquiry" method="post" class="inquiry-form-panel" style="background: rgba(255,255,255,0.45); border: 1px solid rgba(11,14,12,0.15); padding: 2rem;">
           
           <div class="grid md:grid-cols-2 gap-4">
             
@@ -137,21 +137,12 @@
 
 <!-- Client validation & Success Alert -->
 <script>
-    document.getElementById('inquiryForm').addEventListener('submit', function (e) {
-        const required = this.querySelectorAll('[required]');
-        for (const el of required) {
-            if (!el.value || (el.type === 'radio' && !this.querySelector(`[name="${el.name}"]:checked`))) {
-                e.preventDefault();
-                Swal.fire({ icon: 'warning', title: 'Please complete all fields', text: 'Every field is required before you can submit your inquiry.' });
-                return;
-            }
-        }
-    });
-
+document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === '1') {
         Swal.fire({ icon: 'success', title: 'Submitted!', text: 'Your inquiry has been received. We will get back to you shortly.' });
     }
+});
 </script>
 
 <%@ include file="/WEB-INF/fragments/footer.jspf" %>

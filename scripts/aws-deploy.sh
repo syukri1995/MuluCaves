@@ -62,15 +62,19 @@ esac
 # ---------- 2. Region + key pair ----------
 read -r -p "==> AWS region [ap-southeast-1]: " AWS_REGION
 AWS_REGION="${AWS_REGION:-ap-southeast-1}"
+AWS_REGION="${AWS_REGION//$'\r'/}"
 export AWS_DEFAULT_REGION="$AWS_REGION"
 
 read -r -p "==> EC2 key pair name (must exist in this region): " KEY_NAME
+KEY_NAME="${KEY_NAME//$'\r'/}"
 read -r -p "==> EC2 instance type [t3.micro]: " INSTANCE_TYPE
 INSTANCE_TYPE="${INSTANCE_TYPE:-t3.micro}"
+INSTANCE_TYPE="${INSTANCE_TYPE//$'\r'/}"
 
 # Allow SSH from the operator's public IP only — safer than 0.0.0.0/0.
 read -r -p "==> Restrict SSH to your current public IP? [Y/n]: " restrict_ip
 restrict_ip="${restrict_ip:-Y}"
+restrict_ip="${restrict_ip//$'\r'/}"
 if [[ "$restrict_ip" =~ ^[Yy]$ ]]; then
     MY_IP="$(curl -s https://checkip.amazonaws.com)/32"
     echo "    Detected public IP: $MY_IP"
@@ -99,13 +103,10 @@ aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --po
 aws ec2 authorize-security-group-ingress --group-id "$SG_ID" --protocol tcp --port 8080 --cidr 0.0.0.0/0 > /dev/null
 
 # ---------- 5. EC2 instance ----------
-AMI_ID="$(aws ssm get-parameters \
-    --names "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64" \
-    --region "$AWS_REGION" \
-    --query 'Parameters[0].Value' --output text)"
+AMI_ID="ami-0b17abf1c9f45c7b9"
 
 echo "==> Launching $INSTANCE_TYPE in $AWS_REGION (AMI: $AMI_ID)"
-INSTANCE_JSON="$(aws ec2 run-instances \
+INSTANCE_ID="$(MSYS_NO_PATHCONV=1 aws ec2 run-instances \
     --image-id "$AMI_ID" \
     --instance-type "$INSTANCE_TYPE" \
     --key-name "$KEY_NAME" \
@@ -113,9 +114,7 @@ INSTANCE_JSON="$(aws ec2 run-instances \
     --region "$AWS_REGION" \
     --block-device-mappings 'DeviceName=/dev/xvda,Ebs={VolumeSize=20,VolumeType=gp3}' \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=mulu-caves},{Key=Project,Value=CSC584}]" \
-    --query 'Instances[0]' --output json)"
-
-INSTANCE_ID="$(echo "$INSTANCE_JSON" | python3 -c 'import json,sys;print(json.load(sys.stdin)["InstanceId"])')"
+    --query 'Instances[0].InstanceId' --output text)"
 echo "    Instance: $INSTANCE_ID"
 
 echo "==> Waiting for instance to be running..."
@@ -131,6 +130,9 @@ PUBLIC_DNS="$(aws ec2 describe-instances \
 echo "    Public IP : $PUBLIC_IP"
 echo "    Public DNS: $PUBLIC_DNS"
 
+echo "==> Waiting 20 seconds for SSH to boot up..."
+sleep 20
+
 # ---------- 6. Upload WAR + bootstrap ----------
 SSH_OPTS=(-i "${HOME}/.ssh/${KEY_NAME}.pem" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null)
 SCP_OPTS=(-i "${HOME}/.ssh/${KEY_NAME}.pem" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null)
@@ -141,8 +143,10 @@ scp "${SCP_OPTS[@]}" "$(dirname "$0")/../db/schema.sql" "ec2-user@${PUBLIC_IP}:/
 
 # ---------- 7. Bootstrap script ----------
 read -r -s -p "==> MySQL root password for the EC2 instance (will be set + used): " DB_PASSWORD
+DB_PASSWORD="${DB_PASSWORD//$'\r'/}"
 echo
 read -r -s -p "==> Confirm password: " DB_PASSWORD_2
+DB_PASSWORD_2="${DB_PASSWORD_2//$'\r'/}"
 echo
 [[ "$DB_PASSWORD" == "$DB_PASSWORD_2" ]] || { echo "!! Passwords do not match." >&2; exit 1; }
 
@@ -157,27 +161,29 @@ sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_PASSWORD}'; FLU
 sudo dnf -y install wget
 sudo mkdir -p /opt/tomcat
 cd /tmp
-sudo wget -q https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.34/bin/apache-tomcat-10.1.34.tar.gz
+sudo wget -q https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.34/bin/apache-tomcat-10.1.34.tar.gz
 sudo tar -xzf apache-tomcat-10.1.34.tar.gz -C /opt/tomcat --strip-components=1
 sudo useradd -r -d /opt/tomcat -s /sbin/nologin tomcat || true
 sudo chown -R tomcat:tomcat /opt/tomcat
 
-# Deploy WAR
-sudo rm -rf /opt/tomcat/webapps/mulu-caves
-sudo cp /tmp/mulu-caves.war /opt/tomcat/webapps/mulu-caves.war
-sudo chown tomcat:tomcat /opt/tomcat/webapps/mulu-caves.war
+#echo "Deploying application..."
+sudo rm -rf /opt/tomcat/webapps/mulu-caves /opt/tomcat/webapps/mulu-caves.war
+sudo mkdir -p /opt/tomcat/webapps/mulu-caves
+cd /opt/tomcat/webapps/mulu-caves
+sudo /usr/lib/jvm/java-25-amazon-corretto.x86_64/bin/jar xf /tmp/mulu-caves.war
 
-# db.properties (DB_URL points at the local MariaDB on this instance)
-sudo mkdir -p /opt/tomcat/webapps/mulu-caves/WEB-INF
-sudo tee /opt/tomcat/webapps/mulu-caves/WEB-INF/db.properties > /dev/null <<PROPS
+sudo mkdir -p /opt/tomcat/webapps/mulu-caves/WEB-INF/classes
+sudo bash -c "cat > /opt/tomcat/webapps/mulu-caves/WEB-INF/classes/db.properties << 'EOFPROP'
 jdbc.url=jdbc:mysql://localhost:3306/tourism_db?useSSL=false&serverTimezone=Asia/Kuala_Lumpur&allowPublicKeyRetrieval=true
 db.username=root
 db.password=${DB_PASSWORD}
 db.pool.maximum=10
 db.pool.minimum=2
 db.pool.timeout=30000
-PROPS
-sudo chown tomcat:tomcat /opt/tomcat/webapps/mulu-caves/WEB-INF/db.properties
+EOFPROP"
+
+sudo chown -R tomcat:tomcat /opt/tomcat/webapps/mulu-caves
+sudo chown tomcat:tomcat /opt/tomcat/webapps/mulu-caves/WEB-INF/classes/db.properties
 
 # systemd unit
 sudo tee /etc/systemd/system/tomcat.service > /dev/null <<'UNIT'
