@@ -40,13 +40,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo dnf install -y unzip
-            sudo rm -rf /opt/tomcat/webapps/mulu-caves
-            sudo mkdir -p /opt/tomcat/webapps/mulu-caves
-            sudo unzip -q /tmp/target/mulu-caves.war -d /opt/tomcat/webapps/mulu-caves
+            sudo rm -rf /opt/tomcat/webapps/ROOT
+            sudo mkdir -p /opt/tomcat/webapps/ROOT
+            sudo unzip -q /tmp/target/mulu-caves.war -d /opt/tomcat/webapps/ROOT
             
             # Recreate production db.properties to point to actual database instead of local workspace passwords
-            sudo mkdir -p /opt/tomcat/webapps/mulu-caves/WEB-INF/classes
-            sudo bash -c "cat > /opt/tomcat/webapps/mulu-caves/WEB-INF/classes/db.properties << 'EOFPROP'
+            sudo mkdir -p /opt/tomcat/webapps/ROOT/WEB-INF/classes
+            sudo bash -c "cat > /opt/tomcat/webapps/ROOT/WEB-INF/classes/db.properties << 'EOFPROP'
             jdbc.url=jdbc:mysql://localhost:3306/tourism_db?useSSL=false&serverTimezone=Asia/Kuala_Lumpur&allowPublicKeyRetrieval=true
             db.username=root
             db.password=${{ secrets.DB_PASSWORD }}
@@ -55,5 +55,6 @@ jobs:
             db.pool.timeout=30000
             EOFPROP"
             
-            sudo chown -R tomcat:tomcat /opt/tomcat/webapps/mulu-caves
+            sudo chown -R tomcat:tomcat /opt/tomcat/webapps/ROOT
             sudo systemctl restart tomcat
+
