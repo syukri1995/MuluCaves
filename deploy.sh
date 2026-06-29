@@ -1,0 +1,1 @@
+scp -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no target/mulu-caves.war ec2-user@3.26.178.252:/tmp/ROOT.war ; ssh -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes ec2-user@3.26.178.252 'sudo rm -rf /opt/tomcat/webapps/ROOT*; sudo cp /tmp/ROOT.war /opt/tomcat/webapps/; sudo chown tomcat:tomcat /opt/tomcat/webapps/ROOT.war'

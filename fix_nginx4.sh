@@ -1,0 +1,1 @@
+scp -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no mulu.conf ec2-user@3.26.178.252:/tmp/mulu.conf; ssh -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes ec2-user@3.26.178.252 'sudo cp /tmp/mulu.conf /etc/nginx/conf.d/mulu.conf; sudo systemctl restart nginx'

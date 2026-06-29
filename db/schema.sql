@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS activities (
   id           INT          AUTO_INCREMENT PRIMARY KEY,
   name         VARCHAR(120) NOT NULL,
   description  TEXT         NOT NULL,
+  long_description TEXT,
   image_path   VARCHAR(255) NOT NULL,
   sort_order   INT          DEFAULT 0
 ) ENGINE=InnoDB;
@@ -53,6 +54,7 @@ CREATE TABLE IF NOT EXISTS accommodation (
   id           INT          AUTO_INCREMENT PRIMARY KEY,
   name         VARCHAR(120) NOT NULL,
   description  TEXT         NOT NULL,
+  long_description TEXT,
   image_path   VARCHAR(255) NOT NULL,
   sort_order   INT          DEFAULT 0
 ) ENGINE=InnoDB;

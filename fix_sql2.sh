@@ -1,0 +1,1 @@
+scp -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no fix_sql.sql ec2-user@3.26.178.252:/tmp/fix_sql.sql ; ssh -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes ec2-user@3.26.178.252 'mysql -u root -pmulu2026 tourism_db < /tmp/fix_sql.sql'

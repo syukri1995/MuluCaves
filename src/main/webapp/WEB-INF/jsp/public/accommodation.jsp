@@ -29,9 +29,12 @@
             </div>
             <h3 class="text-3xl font-bold text-primary mb-4">${r.name}</h3>
             <p class="text-dark/80 leading-relaxed mb-6">${r.description}</p>
-            <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+            <div class="flex items-center gap-4 pt-6 border-t border-gray-200">
+              <a href="${pageContext.request.contextPath}/accommodation-detail?id=${r.id}" class="btn btn-primary">
+                View Details
+              </a>
               <a href="${pageContext.request.contextPath}/inquiry" class="btn btn-outline border-primary text-primary hover:bg-primary hover:text-white">
-                Inquire about availability
+                Inquire
               </a>
             </div>
           </div>

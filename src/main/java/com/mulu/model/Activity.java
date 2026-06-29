@@ -9,6 +9,7 @@ public class Activity {
     private String description;
     private String imagePath;
     private int sortOrder;
+    private String longDescription;
 
     public Activity() {}
 
@@ -26,4 +27,7 @@ public class Activity {
 
     public int getSortOrder() { return sortOrder; }
     public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
+
+    public String getLongDescription() { return longDescription; }
+    public void setLongDescription(String longDescription) { this.longDescription = longDescription; }
 }

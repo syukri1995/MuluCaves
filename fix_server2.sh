@@ -1,0 +1,1 @@
+ssh -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes ec2-user@3.26.178.252 'sudo rm -rf /opt/tomcat/webapps/ROOT; sudo mv /opt/tomcat/webapps/mulu-caves /opt/tomcat/webapps/ROOT; sudo systemctl restart tomcat'

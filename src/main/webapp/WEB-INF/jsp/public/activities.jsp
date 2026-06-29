@@ -21,19 +21,20 @@
     <!-- Cards Grid -->
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="activitiesContainer">
       <c:forEach var="a" items="${activities}" varStatus="status">
-        <div class="card overflow-hidden animate-fade-in-up opacity-0" style="animation-delay: ${status.count * 0.1}s">
+        <a href="${pageContext.request.contextPath}/activity?id=${a.id}" class="card overflow-hidden animate-fade-in-up opacity-0 text-decoration-none group" style="animation-delay: ${status.count * 0.1}s">
           <div class="relative h-48 overflow-hidden bg-gray-200">
-            <img src="${pageContext.request.contextPath}/${a.imagePath}" alt="${a.name}" class="w-full h-full object-cover" />
+            <img src="${pageContext.request.contextPath}/${a.imagePath}" alt="${a.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
           </div>
           <div class="p-6">
             <div class="flex items-start justify-between mb-3">
               <p class="text-3xl font-bold text-accent">0${status.count}</p>
               <p class="eyebrow text-right ml-2">Experience</p>
             </div>
-            <h3 class="text-lg font-bold text-dark mb-3">${a.name}</h3>
+            <h3 class="text-lg font-bold text-dark mb-3 group-hover:text-primary transition-colors">${a.name}</h3>
             <p class="text-sm text-muted leading-relaxed">${a.description}</p>
+            <p class="text-sm font-semibold text-accent mt-4">Read more &rarr;</p>
           </div>
-        </div>
+        </a>
       </c:forEach>
     </div>
   </div>
@@ -76,22 +77,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         activities.forEach((a, index) => {
-            const div = document.createElement('div');
-            div.className = 'card overflow-hidden animate-fade-in-up opacity-0 delay-1';
-            div.innerHTML = `
+            const aTag = document.createElement('a');
+            aTag.href = contextPath + '/activity?id=' + a.id;
+            aTag.className = 'card overflow-hidden animate-fade-in-up opacity-0 delay-1 text-decoration-none group';
+            aTag.innerHTML = `
               <div class="relative h-48 overflow-hidden bg-gray-200">
-                <img src="\${contextPath}/\${a.imagePath}" alt="\${a.name}" class="w-full h-full object-cover" />
+                <img src="\${contextPath}/\${a.imagePath}" alt="\${a.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
               </div>
               <div class="p-6">
                 <div class="flex items-start justify-between mb-3">
                   <p class="text-3xl font-bold text-accent">0\${index + 1}</p>
                   <p class="eyebrow text-right ml-2">Experience</p>
                 </div>
-                <h3 class="text-lg font-bold text-dark mb-3">\${a.name}</h3>
+                <h3 class="text-lg font-bold text-dark mb-3 group-hover:text-primary transition-colors">\${a.name}</h3>
                 <p class="text-sm text-muted leading-relaxed">\${a.description}</p>
+                <p class="text-sm font-semibold text-accent mt-4">Read more &rarr;</p>
               </div>
             `;
-            container.appendChild(div);
+            container.appendChild(aTag);
         });
     }
 });

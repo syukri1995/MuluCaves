@@ -33,8 +33,12 @@ public class PublicServlet extends HttpServlet {
             showExplore(req, resp);
         } else if (path.equals("/activities")) {
             showActivities(req, resp);
+        } else if (path.equals("/activity")) {
+            showActivity(req, resp);
         } else if (path.equals("/accommodation")) {
             showAccommodation(req, resp);
+        } else if (path.equals("/accommodation-detail")) {
+            showAccommodationDetail(req, resp);
         } else if (path.equals("/developer")) {
             showDeveloper(req, resp);
         } else {
@@ -67,6 +71,32 @@ public class PublicServlet extends HttpServlet {
         req.setAttribute("pageTitle", "Where to Stay");
         req.setAttribute("accommodations", accommodationDao.findAll());
         req.getRequestDispatcher("/WEB-INF/jsp/public/accommodation.jsp").forward(req, resp);
+    }
+
+    private void showActivity(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String idStr = req.getParameter("id");
+        if (idStr != null) {
+            try {
+                int id = Integer.parseInt(idStr);
+                req.setAttribute("activity", activityDao.findById(id));
+            } catch (NumberFormatException ignored) {}
+        }
+        req.setAttribute("pageTitle", "Activity Details");
+        req.getRequestDispatcher("/WEB-INF/jsp/public/activity_detail.jsp").forward(req, resp);
+    }
+
+    private void showAccommodationDetail(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String idStr = req.getParameter("id");
+        if (idStr != null) {
+            try {
+                int id = Integer.parseInt(idStr);
+                req.setAttribute("accommodation", accommodationDao.findById(id));
+            } catch (NumberFormatException ignored) {}
+        }
+        req.setAttribute("pageTitle", "Accommodation Details");
+        req.getRequestDispatcher("/WEB-INF/jsp/public/accommodation_detail.jsp").forward(req, resp);
     }
 
     private void showDeveloper(HttpServletRequest req, HttpServletResponse resp)

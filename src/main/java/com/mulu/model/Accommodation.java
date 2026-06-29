@@ -9,6 +9,7 @@ public class Accommodation {
     private String description;
     private String imagePath;
     private int sortOrder;
+    private String longDescription;
 
     public Accommodation() {}
 
@@ -26,4 +27,7 @@ public class Accommodation {
 
     public int getSortOrder() { return sortOrder; }
     public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
+
+    public String getLongDescription() { return longDescription; }
+    public void setLongDescription(String longDescription) { this.longDescription = longDescription; }
 }
