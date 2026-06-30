@@ -1,0 +1,1 @@
+ssh -i ~/.ssh/mulu-key.pem -o StrictHostKeyChecking=no -o BatchMode=yes ec2-user@3.26.178.252 'echo "export DB_PASSWORD=mulu2026" | sudo tee /opt/tomcat/bin/setenv.sh ; sudo chmod +x /opt/tomcat/bin/setenv.sh ; sudo chown tomcat:tomcat /opt/tomcat/bin/setenv.sh ; sudo systemctl restart tomcat'
